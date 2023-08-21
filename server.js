@@ -1,8 +1,4 @@
 const express = require('express');
-const cluster = require('cluster');
-const os = require('os');
-
-const NUM_WORKERS = os.cpus().length;
 
 const app = express();
 
@@ -22,14 +18,6 @@ app.get('/timer', (req, res) => {
   res.send(`Ring! ...Ring! ...Ring! ${process.pid}`);
 });
 
-if (cluster.isMaster) {
-  console.log('Master initiated...');
-
-  for (let i = 0; i < NUM_WORKERS; i++) {
-    cluster.fork();
-  }
-} else {
-  console.log('Worker initiated...');
-  app.listen(3000);
-}
-
+console.log('Master initiated...');
+console.log('Worker initiated...');
+app.listen(3000);
